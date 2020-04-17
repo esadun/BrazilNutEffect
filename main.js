@@ -17,18 +17,18 @@ var runInterval;
 var statsInterval;
 var updates;
 var brazilNuts;
-var brazilNutAvgHeights=[];
+var brazilNutAvgHeights = [];
 var normalNuts;
-var normalNutAvgHeights=[];
-var initialTime=new Date().getTime();
-var isRunning=false;
-var framerate=60;
-var statsRate=1;
-var nutSize=.3;
+var normalNutAvgHeights = [];
+var initialTime = new Date().getTime();
+var isRunning = false;
+var framerate = 60;
+var statsRate = 1;
+var nutSize = .3;
 var brazilSize;
 var chart;
 
-function main(){
+function main() {
 
   console.log("top of main");
   createChart();
@@ -37,13 +37,13 @@ function main(){
 
 function boxdrop() {
   console.log("top of boxdrop");
-  updates=0;
-  brazilNuts=[];
-  normalNuts=[];
-  
+  updates = 0;
+  brazilNuts = [];
+  normalNuts = [];
+
   world = new b2World(
     new b2Vec2(0, 10)
-    ,true
+    , true
   );
 
   // body and fixture
@@ -51,26 +51,26 @@ function boxdrop() {
   var fixDef = new b2FixtureDef;
 
 
-  var numNuts=parseFloat(document.getElementById("numNuts").value);
-  var numBrazil=parseFloat(document.getElementById("percentBrazils").value)/100*numNuts;
-  var numOther=numNuts-numBrazil;
-  brazilSize=parseFloat(document.getElementById("brazilRelativeSize").value)*nutSize;
+  var numNuts = parseFloat(document.getElementById("numNuts").value);
+  var numBrazil = parseFloat(document.getElementById("percentBrazils").value) / 100 * numNuts;
+  var numOther = numNuts - numBrazil;
+  brazilSize = parseFloat(document.getElementById("brazilRelativeSize").value) * nutSize;
 
-  for(var i=0;i<numOther;i++){
-    normalNuts.push(createBall(bodyDef,fixDef,Math.floor(5+Math.random()*10),Math.floor(Math.random()*3)+4,nutSize));  
+  for (var i = 0; i < numOther; i++) {
+    normalNuts.push(createBall(bodyDef, fixDef, Math.floor(5 + Math.random() * 10), Math.floor(Math.random() * 3) + 4, nutSize));
   }
-  for(var i=0;i<numBrazil;i++){
-    brazilNuts.push(createBall(bodyDef,fixDef,5+Math.floor(Math.random()*10),Math.floor(Math.random()*3)+4,brazilSize));  
+  for (var i = 0; i < numBrazil; i++) {
+    brazilNuts.push(createBall(bodyDef, fixDef, 5 + Math.floor(Math.random() * 10), Math.floor(Math.random() * 3) + 4, brazilSize));
   }
-  
-  vessel=createVessel(bodyDef, fixDef);
+
+  vessel = createVessel(bodyDef, fixDef);
 
   setupDebugDraw();
-  runInterval=window.setInterval(update, 1000 / framerate);
-  isRunning=true;
+  runInterval = window.setInterval(update, 1000 / framerate);
+  isRunning = true;
 }
 
-function reset(){
+function reset() {
   clearInterval(runInterval);
   clearInterval(statsInterval);
   createChart();
@@ -78,63 +78,63 @@ function reset(){
   boxdrop();
 }
 
-function pause(){
-  if(isRunning){
+function pause() {
+  if (isRunning) {
     clearInterval(runInterval);
     clearInterval(statsInterval);
-    isRunning=false;
-  }else{
-    runInterval=window.setInterval(update, 1000 / framerate);
-    statsInterval=window.setInterval(function(){
+    isRunning = false;
+  } else {
+    runInterval = window.setInterval(update, 1000 / framerate);
+    statsInterval = window.setInterval(function () {
       renderStats(chart);
-    }, 1000/statsRate);
-    isRunning=true;
+    }, 1000 / statsRate);
+    isRunning = true;
   }
 
 };
 
-function updateControlInfo(control){
-  control.parentElement.querySelector(".info").innerHTML=parseFloat(control.value);
+function updateControlInfo(control) {
+  control.parentElement.querySelector(".info").innerHTML = parseFloat(control.value);
 };
 
-function createVessel(bodyDef, fixDef){
+function createVessel(bodyDef, fixDef) {
   bodyDef.type = b2Body.b2_kinematicBody;//.b2_staticBody;
-  
+
   fixDef.shape = new b2PolygonShape;
   bodyDef.position.x = 0;
   bodyDef.position.y = 0;
 
-  var vessel=world.CreateBody(bodyDef);
+  var vessel = world.CreateBody(bodyDef);
 
   //Top
-  fixDef.shape.SetAsEdge(new b2Vec2(0,-10), new b2Vec2(20,-10))
+  fixDef.shape.SetAsEdge(new b2Vec2(0, -10), new b2Vec2(20, -10))
   vessel.CreateFixture(fixDef);
 
   //Bottom
-  fixDef.shape.SetAsEdge(new b2Vec2(0,10), new b2Vec2(20,10))
+  fixDef.shape.SetAsEdge(new b2Vec2(0, 10), new b2Vec2(20, 10))
   vessel.CreateFixture(fixDef);
 
   //Sides
-  fixDef.shape.SetAsEdge(new b2Vec2(1,-10), new b2Vec2(1,10))
+  fixDef.shape.SetAsEdge(new b2Vec2(1, -10), new b2Vec2(1, 10))
   vessel.CreateFixture(fixDef);
-  fixDef.shape.SetAsEdge(new b2Vec2(19,-10), new b2Vec2(19,10))
+  fixDef.shape.SetAsEdge(new b2Vec2(19, -10), new b2Vec2(19, 10))
   vessel.CreateFixture(fixDef);
 
   return vessel;
 };
 
-function vibrateVessel(vessel,velocity){
-  vessel.SetLinearVelocity(new b2Vec2(velocity/5,velocity));
+function vibrateVessel(vessel, velocity) {
+  vessel.SetLinearVelocity(new b2Vec2(velocity / 5, velocity));
 }
 
-function createBall(bodyDef, fixDef, originX, originY, radius,density){
+function createBall(bodyDef, fixDef, originX, originY, radius, density) {
   // Create a Ball (body, fixture, shape)
   bodyDef.type = b2Body.b2_dynamicBody;
   bodyDef.position.x = originX;
   bodyDef.position.y = originY;
-  if(density!=undefined){
+  if (density != undefined) {
     fixDef.density = density;
-  }else{
+  } else {
     fixDef.density = 1.0;
   }
   fixDef.friction = 0.5
@@ -142,68 +142,69 @@ function createBall(bodyDef, fixDef, originX, originY, radius,density){
   fixDef.shape = new b2CircleShape(radius);
   var body = world.CreateBody(bodyDef);
   body.CreateFixture(fixDef);
-  body.SetLinearVelocity(new b2Vec2(0,-4)); // give the ball velocity
+  body.SetLinearVelocity(new b2Vec2(0, -4)); // give the ball velocity
   //world.CreateBody(bodyDef).CreateFixture(fixDef);
   return body;
 };
 
 function update() {
   updates++;
-  world.Step(1 / framerate  , 10 , 10 );
+  world.Step(1 / framerate, 10, 10);
   world.DrawDebugData();
   world.ClearForces();
-  var amp=parseFloat(document.getElementById("amplitude").value);
-  var freq=parseFloat(document.getElementById("frequency").value);
-  var vesselVel=amp*Math.sin((2*3.14/freq)*updates);
-  vibrateVessel(vessel,vesselVel);
+  var amp = parseFloat(document.getElementById("amplitude").value);
+  var freq = parseFloat(document.getElementById("frequency").value);
+  var vesselVel = amp * Math.sin((2 * 3.14 / freq) * updates);
+  vibrateVessel(vessel, vesselVel);
 };
 
-function renderStats(theChart){
-  var totalBrazilHeights=0;
-  for(var i=0;i<brazilNuts.length;i++){
-    totalBrazilHeights+=(brazilNuts[i].GetPosition().y+brazilSize);
+function renderStats(theChart) {
+  var totalBrazilHeights = 0;
+  for (var i = 0; i < brazilNuts.length; i++) {
+    totalBrazilHeights += (brazilNuts[i].GetPosition().y + brazilSize);
   }
-  var totalNormalHeights=0;
-  for(var i=0;i<normalNuts.length;i++){
-    totalNormalHeights+=(normalNuts[i].GetPosition().y+nutSize);
+  var totalNormalHeights = 0;
+  for (var i = 0; i < normalNuts.length; i++) {
+    totalNormalHeights += (normalNuts[i].GetPosition().y + nutSize);
   }
-  var timeEllapsed=(new Date().getTime())-initialTime;
-  brazilNutAvgHeights.push({x:timeEllapsed/1000,y:10-(totalBrazilHeights/brazilNuts.length)});
-  normalNutAvgHeights.push({x:timeEllapsed/1000,y:10-(totalNormalHeights/normalNuts.length)});
+  var timeEllapsed = (new Date().getTime()) - initialTime;
+  brazilNutAvgHeights.push({ x: timeEllapsed / 1000, y: 10 - (totalBrazilHeights / brazilNuts.length) });
+  normalNutAvgHeights.push({ x: timeEllapsed / 1000, y: 10 - (totalNormalHeights / normalNuts.length) });
   theChart.render();
 };
 
-function createChart(){
-  brazilNutAvgHeights=[];
-  normalNutAvgHeights=[];
-  chart = new CanvasJS.Chart("avgHeights",{
-    title :{
+function createChart() {
+  brazilNutAvgHeights = [];
+  normalNutAvgHeights = [];
+  chart = new CanvasJS.Chart("avgHeights", {
+    title: {
       text: "Average Brazil Height"
     },
-    axisX: {            
+    axisX: {
       title: "Time (s)"
     },
-    axisY: {            
+    axisY: {
       title: "Height from bottom (m)",
-      maximum:10,
+      maximum: 6,
       minimum: 0
     },
     data: [{
       type: "line",
-      dataPoints : brazilNutAvgHeights,
+      dataPoints: brazilNutAvgHeights,
       showInLegend: true,
       legendText: "Brazils",
-    },{
+    }, {
       type: "line",
-      dataPoints : normalNutAvgHeights,
+      dataPoints: normalNutAvgHeights,
       showInLegend: true,
       legendText: "Others",
     }]
   });
-  setTimeout(function(){
-    statsInterval=setInterval(function(){
-    renderStats(chart);
-  },1000/statsRate)},2500);
+  setTimeout(function () {
+    statsInterval = setInterval(function () {
+      renderStats(chart);
+    }, 1000 / statsRate)
+  }, 2500);
 };
 
 

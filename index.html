@@ -1,18 +1,22 @@
 <!doctype html>
 
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
 
     <title>Nuts</title>
     <meta name="description" content="Nuts">
-    <meta name="author" content="Dave">
+    <meta name="author" content="Elvio">
 
     <link rel="stylesheet" href="main.css">
-    <script src="Box2d.js"></script>
-    <script src="canvasjs.min.js"></script>
-    <script src="main.js"></script>
-    
+    <script src="Box2d.js">
+    </script>
+    <script src="canvasjs.min.js">
+    </script>
+    <script src="main.js">
+    </script>
+
 </head>
 
 <body>
@@ -20,26 +24,26 @@
     <div id="controls">
         <div>
             Frequency
-            <input type="range" min="5" max="40" value="10" class="slider" id="frequency">
+            <input type="range" min="5" max="40" value="15" class="slider" id="frequency">
         </div>
         <div>
             Amplitude
-            <input type="range" min="1" max="25" value="10" class="slider" id="amplitude">
+            <input type="range" min="1" max="25" value="17" class="slider" id="amplitude">
         </div>
         <div>
             # of nuts
             (<span class="sliderInfo" id="numNuts_info"><span class="info">150</span></span>)
-            <input type="range" min="10" max="250" value="150" class="slider" id="numNuts" onchange="updateControlInfo(this);reset();">
+            <input type="range" min="10" max="250" value="200" class="slider" id="numNuts" onchange="updateControlInfo(this);reset();">
         </div>
         <div>
             % brazil
             (<span class="sliderInfo" id="percentBrazils_info"><span class="info">5</span>%</span>)
-            <input type="range" min="1" max="50" value="5" class="slider" id="percentBrazils" onchange="updateControlInfo(this);reset();">
+            <input type="range" min="1" max="50" value="1" class="slider" id="percentBrazils" onchange="updateControlInfo(this);reset();">
         </div>
         <div>
         Brazil size
             (<span class="sliderInfo" id="brazilRelativeSize_info"><span class="info">3</span>:1</span>)
-            <input type="range" min="1" max="4" value="3" class="slider" id="brazilRelativeSize" onchange="updateControlInfo(this);reset();">
+            <input type="range" min="1" max="4" value="4" class="slider" id="brazilRelativeSize" onchange="updateControlInfo(this);reset();">
         </div>
     </div>
     <div id="buttonContainer">
