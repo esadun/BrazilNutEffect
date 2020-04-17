@@ -1,0 +1,27 @@
+#frequency {
+  direction: rtl
+}
+
+button{
+	font-size: 150%;
+	float: right;
+}
+
+button:first-child{
+	float: left;
+}
+
+#buttonContainer{
+	width: 50%;
+    margin: 0 auto;
+    margin-top: 20px;
+    height: 50px;
+}
+
+canvas{
+	padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
