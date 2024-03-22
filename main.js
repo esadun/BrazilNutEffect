@@ -78,9 +78,9 @@ function reset() {
   boxdrop();
 }
 
-function changeGravity() {
+/*function setGravity() {
   world.SetGravity(new b2Vec2(0, parseFloat(document.getElementById("gravity").value)));
-}
+}*/
 
 function pause() {
   if (isRunning) {
@@ -131,6 +131,7 @@ function createVessel(bodyDef, fixDef) {
     fixDef.shape.SetAsEdge(new b2Vec2(20, 5), new b2Vec2(15, 10))
     vessel.CreateFixture(fixDef);
   }
+  world.SetGravity(new b2Vec2(0, parseFloat(document.getElementById("gravity").value)));
   return vessel;
 };
 
