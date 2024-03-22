@@ -78,6 +78,10 @@ function reset() {
   boxdrop();
 }
 
+function changeGravity() {
+  world.SetGravity(new b2Vec2(0, parseFloat(document.getElementById("gravity").value);));
+}
+
 function pause() {
   if (isRunning) {
     clearInterval(runInterval);
