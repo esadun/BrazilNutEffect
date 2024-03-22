@@ -120,6 +120,12 @@ function createVessel(bodyDef, fixDef) {
   fixDef.shape.SetAsEdge(new b2Vec2(19, -10), new b2Vec2(19, 10))
   vessel.CreateFixture(fixDef);
 
+  //Vee
+  fixDef.shape.SetAsEdge(new b2Vec2(0, 15), new b2Vec2(5, 10))
+  vessel.CreateFixture(fixDef);
+  fixDef.shape.SetAsEdge(new b2Vec2(20, 15), new b2Vec2(15, 10))
+  vessel.CreateFixture(fixDef);
+
   return vessel;
 };
 
