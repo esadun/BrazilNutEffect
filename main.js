@@ -79,7 +79,7 @@ function reset() {
 }
 
 function changeGravity() {
-  world.SetGravity(new b2Vec2(0, parseFloat(document.getElementById("gravity").value);));
+  world.SetGravity(new b2Vec2(0, parseFloat(document.getElementById("gravity").value)));
 }
 
 function pause() {
